@@ -56,13 +56,122 @@
 <p><iframe allowfullscreen="allowfullscreen" height="314" src='//www.youtube.com/embed/fzmRKXH5e94?si=uwOhtV_luB01C_Kt" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen&gt;&lt;/iframe&gt;' width="560"></iframe></p>
 <p>1.  已知可以用 Python 程式<a href="https://mde.tw/cp2024/content/Brython.html?src=https://gist.githubusercontent.com/mdecycu/5e6eda7a004c15fa7262b9a80bfa4af6/raw/c2225ac22f32ee8485a630b42cf3f4d8567bb661/up_to_down_pyramid.py">由上往下列印三角形 *</a>, 或<a href="https://mde.tw/cp2024/content/Brython.html?src=https://gist.githubusercontent.com/mdecycu/5e6eda7a004c15fa7262b9a80bfa4af6/raw/56793c72d4495d564e3cc6214ed5fb68dbd2b21d/left_to_right_pyramid.py">由左往右列印三角形 *</a>, 請將此程式延伸到可以在 10x10 的字元區域中, 以 "*" 字元列印出圓型區域. 完成後請將程式碼存入個人 Gist 後, 直接在個人作業網站中的 Brython 頁面中執行. (提示: ?src=gist_script_URL)</p>
 <p>第一題:<a href="https://mdecp2024.github.io/hw-413232220/content/Brython.html?src=https://gist.githubusercontent.com/413232220/65b95789c8992ea356abf1f75ad8dd35/raw/52925d04944c821f0bc80d00602b780247b6b77d/hw1.py">"*" 字號圖形</a></p>
-<p></p>
+<pre class="brush:py;auto-links:false;toolbar:false" contenteditable="false"># 圓心位置
+center_x = 5
+center_y = 5
+# 圓的半徑
+radius = 4
+
+# 創建 10x10 的字符區域
+for y in range(10):
+    for x in range(10):
+        # 計算當前點到圓心的距離
+        distance = ((x - center_x) ** 2 + (y - center_y) ** 2) ** 0.5
+        # 如果距離接近圓的半徑，就打印 *
+        if abs(distance - radius) &lt; 0.5:
+            print("*", end="")
+        else:
+            print(" ", end="")
+    print()
+</pre>
+<p><br/><br/></p>
 <p>2. 已知可以在網頁中利用 Brython 繪製方格與塗色, 如下連結, 請設法修改此一程式, 直接將程式存入個人的 Gist, 並利用黑色方塊圍出一個圓形區域.</p>
 <p>第二題:<a href="https://mdecp2024.github.io/hw-413232220/content/Brython.html?src=https://gist.githubusercontent.com/413232220/65b95789c8992ea356abf1f75ad8dd35/raw/52925d04944c821f0bc80d00602b780247b6b77d/hw2.py">網頁上的方格與塗色</a></p>
+<pre class="brush:py;auto-links:false;toolbar:false" contenteditable="false">from browser import html
+from browser import document as doc
+
+# 建立畫布
+canvas = html.CANVAS(width=200, height=200)
+brython_div = doc["brython_div1"]
+brython_div &lt;= canvas
+
+# 每格的像素數
+gs = 20  # 每格的像素為 20x20
+
+# 獲取畫布上下文
+ctx = canvas.getContext("2d")
+
+# 畫矩形的函數
+def dRect(lux, luy, w, h, s=1, c='#ff0000'):
+    ctx.lineWidth = s
+    ctx.strokeStyle = c
+    ctx.beginPath()
+    ctx.rect(lux, luy, w, h)
+    ctx.stroke()
+
+# 畫網格的函數
+def grid(width, height, grid_pix):
+    # 繪製10x10的網格
+    for i in range(width):
+        for j in range(height):
+            dRect(i * grid_pix, j * grid_pix, grid_pix, grid_pix, 1, "lightgrey")
+
+# 填充顏色的函數
+def fill(x, y, color):
+    ctx.fillStyle = color
+    ctx.fillRect(x * gs, y * gs, gs, gs)
+
+# 計算圓形的像素位置，並填充
+def draw_circle(center_x, center_y, radius):
+    for i in range(10):
+        for j in range(10):
+            # 計算每個格子到圓心的距離
+            dist = ((i - center_x) ** 2 + (j - center_y) ** 2) ** 0.5
+            # 如果該格子在圓形範圍內，填充顏色
+            if dist &lt;= radius:
+                fill(i, j, "black")
+
+# 繪製網格和圓形
+grid(10, 10, gs)
+draw_circle(5, 5, 4)  # 圓心位置在 (5, 5)，半徑為 4
+</pre>
 <p>3. 完成上列題目後, 請利用 Youtube 影片<span>簡報</span>個人的解題過程與心得.</p>
 <p><a href="https://mde.tw/cp2024/content/Brython.html?src=https://gist.githubusercontent.com/413232220/5cbe30c5050e763868f0d09cbe8c50fe/raw/2aecf02b5c60bfa7431ef1bfa62806c06507cd0a/22">數列</a></p>
+<pre class="brush:py;auto-links:false;toolbar:false" contenteditable="false">n = 11 # 總共的行數
+space = '_'
+center = n//2
+#print(center)
+ 
+for y in range(n):
+    for x in range(n):
+        print("(", x, ", ", y, ")", sep="")
+</pre>
 <p></p>
-<p><a href="https://mde.tw/cp2024/content/Brython.html?src=https://gist.githubusercontent.com/413232220/ead923fb21577dfd82a13f37a53f06da/raw/f1e2738da1c652b611afd6e6e872340b9a1c7a0f/23">格子</a></p><h3>w12_hw</h3><h3>w13_hw</h3>
+<p><a href="https://mde.tw/cp2024/content/Brython.html?src=https://gist.githubusercontent.com/413232220/ead923fb21577dfd82a13f37a53f06da/raw/f1e2738da1c652b611afd6e6e872340b9a1c7a0f/23">格子</a></p>
+<pre class="brush:py;auto-links:false;toolbar:false" contenteditable="false">from browser import html
+from browser import document as doc
+ 
+# 利用 html 建立 canvas 超文件物件
+canvas = html.CANVAS(width=400, height=400)
+brython_div = doc["brython_div1"]
+brython_div &lt;= canvas
+ 
+gs = 20
+ 
+# gs*tc = canvas width and height
+ 
+ctx = canvas.getContext("2d")
+ 
+width = 11
+height = 11
+ 
+'''
+ctx.lineWidth = 1
+ctx.strokeStyle = 'lightred'
+ctx.beginPath()
+# ctx.rect(i*gs, j*gs, gs,gs)
+ctx.rect(0, 0, 150, 100)
+ctx.stroke()
+'''
+ 
+for i in range(width):
+    for j in range(height):
+        ctx.lineWidth = 1
+        ctx.strokeStyle = 'lightred'
+        ctx.beginPath() 
+        ctx.rect(i * gs, j * gs, gs, gs)
+        ctx.stroke()</pre>
+<p></p><h3>w12_hw</h3><h3>w13_hw</h3>
 <h1>HW 2</h1>
 <h4>主題: Python 的數列、判斷式與重複迴圈 (20%)<span style="background-color: #ffff99;"><br/></span></h4>
 <p style="padding-left: 30px;">Python 課程教材: <a href="https://www.learnpythonwithjupyter.com/">https://www.learnpythonwithjupyter.com/</a> - PART 2 and Part 3</p>
